@@ -1,0 +1,8 @@
+Tempo de execução para 100 iterações: 0,094862 segundos
+Tempo de execução para 500 iterações: 0,277239 segundos
+Tempo de execução para 1000 iterações: 0,378009 segundos
+Tempo de execução para 2000 iterações: 0,646383 segundos
+Tempo de execução para 5000 iterações: 1,333452 segundos
+Tempo de execução para 10000 iterações: 2,574077 segundos
+Tempo de execução para 50000 iterações: 12,685081 segundos
+Tempo de execução para 100000 iterações: 25,519043 segundos

@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\dougl\\source\\repos\\ACO\\ACO_TSP_SEQ\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA51C9A3-0D32-445D-B940-6D4D3D9580FF}|ACO_TSP_SEQ\\ACO_TSP_SEQ.csproj|c:\\users\\dougl\\source\\repos\\aco\\aco_tsp_seq\\aco_tsp_seq\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA51C9A3-0D32-445D-B940-6D4D3D9580FF}|ACO_TSP_SEQ\\ACO_TSP_SEQ.csproj|solutionrelative:aco_tsp_seq\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dougl\\source\\repos\\ACO\\ACO_TSP_SEQ\\ACO_TSP_SEQ\\Program.cs",
+              "RelativeDocumentMoniker": "ACO_TSP_SEQ\\Program.cs",
+              "ToolTip": "C:\\Users\\dougl\\source\\repos\\ACO\\ACO_TSP_SEQ\\ACO_TSP_SEQ\\Program.cs",
+              "RelativeToolTip": "ACO_TSP_SEQ\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-28T20:00:49.899Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

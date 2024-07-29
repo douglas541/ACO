@@ -1,0 +1,14 @@
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\bin\Debug\net8.0\ACO_TSP.exe
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\bin\Debug\net8.0\ACO_TSP.deps.json
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\bin\Debug\net8.0\ACO_TSP.runtimeconfig.json
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\bin\Debug\net8.0\ACO_TSP.dll
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\bin\Debug\net8.0\ACO_TSP.pdb
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.AssemblyInfoInputs.cache
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.AssemblyInfo.cs
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.csproj.CoreCompileInputs.cache
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.dll
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\refint\ACO_TSP.dll
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.pdb
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ACO_TSP.genruntimeconfig.cache
+C:\Users\dougl\source\repos\ACO_TSP\ACO_TSP\obj\Debug\net8.0\ref\ACO_TSP.dll

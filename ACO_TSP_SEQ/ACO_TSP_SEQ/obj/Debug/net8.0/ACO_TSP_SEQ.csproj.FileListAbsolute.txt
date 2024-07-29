@@ -1,0 +1,14 @@
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\bin\Debug\net8.0\ACO_TSP_SEQ.exe
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\bin\Debug\net8.0\ACO_TSP_SEQ.deps.json
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\bin\Debug\net8.0\ACO_TSP_SEQ.runtimeconfig.json
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\bin\Debug\net8.0\ACO_TSP_SEQ.dll
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\bin\Debug\net8.0\ACO_TSP_SEQ.pdb
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.AssemblyInfoInputs.cache
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.AssemblyInfo.cs
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.csproj.CoreCompileInputs.cache
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.dll
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\refint\ACO_TSP_SEQ.dll
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.pdb
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ACO_TSP_SEQ.genruntimeconfig.cache
+C:\Users\dougl\source\repos\ACO_TSP_SEQ\ACO_TSP_SEQ\obj\Debug\net8.0\ref\ACO_TSP_SEQ.dll
