@@ -1,208 +1,167 @@
 \documentclass{beamer}
-\usepackage[utf8]{inputenc}
+
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{listings}
-\usepackage{xcolor}
+\usepackage{booktabs}
 
-\title{ACO-TSP Paralelo em CPUs}
-\author{Douglas Sousa Jorge\\Isaac Brasil Oliveira}
+\title{Parallel Ant Colony Optimization on Multi-Core CPUs}
+\subtitle{Accelerating the TSP Solution}
+\author{Douglas Sousa Jorge, Isaac Brasil Oliveira}
+\institute{INF - UFG}
 \date{}
 
-\lstset{
-  language=C,
-  basicstyle=\footnotesize,
-  numbers=left,
-  numberstyle=\tiny\color{gray},
-  stepnumber=1,
-  numbersep=5pt,
-  backgroundcolor=\color{white},
-  showspaces=false,
-  showstringspaces=false,
-  showtabs=false,
-  frame=single,
-  rulecolor=\color{black},
-  tabsize=2,
-  captionpos=b,
-  breaklines=true,
-  breakatwhitespace=false,
-  keywordstyle=\color{blue},
-  commentstyle=\color{green},
-  stringstyle=\color{red},
-  escapeinside={\%*}{*)},
-  morekeywords={*,...}
-}
-
 \begin{document}
-
-\frame{\titlepage}
-
-\begin{frame}
-\frametitle{Problema}
-\begin{itemize}
-    \item O problema de otimização do Caixeiro Viajante (TSP) é um problema clássico de otimização combinatória.
-    \item Objetivo: Encontrar o caminho mais curto que visita todas as cidades exatamente uma vez e retorna à cidade de origem.
-    \item O desafio: Reduzir o tempo de execução ao resolver o TSP com algoritmos eficientes.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Solução}
-\begin{itemize}
-    \item Utilização do Algoritmo de Otimização por Colônia de Formigas (ACO) para resolver o TSP.
-    \item Implementação de duas versões:
-    \begin{itemize}
-        \item \textbf{Sequencial}: Algoritmo ACO executado de forma linear.
-        \item \textbf{Paralelo}: Algoritmo ACO utilizando threads para paralelizar a construção das soluções.
-    \end{itemize}
-    \item Baseado nas metodologias descritas no paper original, adaptadas para execução em C\#.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Metodologia}
-\begin{itemize}
-    \item \textbf{Experimentos}:
-    \begin{itemize}
-        \item Executar ambos os algoritmos (sequencial e paralelo) com diferentes números de iterações (1000, 5000, 10000, 50000, 100000).
-        \item Medir o tempo de execução para cada caso.
-        \item Comparar os resultados em termos de tempo de execução.
-    \end{itemize}
-    \item \textbf{Ferramentas}:
-    \begin{itemize}
-        \item C\# para implementação dos algoritmos.
-        \item Bibliotecas: Parallel LINQ para paralelismo, System.IO para manipulação de arquivos.
-    \end{itemize}
-    \item \textbf{Paralelo com o paper original}:
-    \begin{itemize}
-        \item A implementação paralela segue a ideia do paper original, onde cada formiga é executada em uma thread separada.
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Código Sequencial: Construção da Solução}
-\begin{itemize}
-    \item A construção da solução é feita com base nas probabilidades calculadas a partir dos feromônios e das heurísticas.
-    \item As formigas escolhem a próxima cidade a ser visitada com base nessas probabilidades.
-\end{itemize}
-\begin{lstlisting}
-int[] ConstruirSolucao(double[,] feromonios, double[,] heuristicas, int numCidades) {
-    var tour = new int[numCidades];
-    var visitadas = new bool[numCidades];
-    var cidadeInicial = random.Next(numCidades);
-    tour[0] = cidadeInicial;
-    visitadas[cidadeInicial] = true;
-    ...
-    for (var i = 1; i < numCidades; i++) {
-        ...
-        probabilidades[j] = Math.Pow(feromonios[cidadeAtual, j], alpha) * Math.Pow(heuristicas[cidadeAtual, j], beta);
-        ...
-        tour[i] = proximaCidade;
-        visitadas[proximaCidade] = true;
-    }
-    return tour;
-}
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}
-\frametitle{Código Sequencial: Atualização dos Feromônios}
-\begin{itemize}
-    \item Os feromônios são atualizados com base nas soluções encontradas pelas formigas.
-\end{itemize}
-\begin{lstlisting}
-double[,] AtualizarFeromonios(int[][] tours, double[,] distancias, double[,] feromonios, double rho) {
-    var deltaFeromonios = new double[numCidades, numCidades];
-    foreach (var tour in tours) {
-        for (var i = 0; i < tour.Length - 1; i++) {
-            deltaFeromonios[tour[i], tour[i + 1]] += 1.0 / distancias[tour[i], tour[i + 1]];
-        }
-        deltaFeromonios[tour[^1], tour[0]] += 1.0 / distancias[tour[^1], tour[0]];
-    }
-    for (var i = 0; i < numCidades; i++) {
-        for (var j = 0; j < numCidades; j++) {
-            feromonios[i, j] = (1 - rho) * feromonios[i, j] + deltaFeromonios[i, j];
-        }
-    }
-    return feromonios;
-}
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}
-\frametitle{Código Sequencial: Função Principal}
-\begin{itemize}
-    \item A função principal executa o algoritmo por um número especificado de iterações.
-    \item Em cada iteração, as soluções são construídas e os feromônios são atualizados.
-\end{itemize}
-\begin{lstlisting}
-void Aco(double[,] distancias, double[,] feromonios, double[,] heuristicas, int numCidades, int numFormigas, int numIteracoes) {
-    for (var iteracao = 0; iteracao < numIteracoes; iteracao++) {
-        var tours = new int[numFormigas][];
-        for (var i = 0; i < numFormigas; i++) {
-            tours[i] = ConstruirSolucao(feromonios, heuristicas, numCidades);
-        }
-        feromonios = AtualizarFeromonios(tours, distancias, feromonios, rho);
-        Console.WriteLine($"Iteração {iteracao + 1}/{numIteracoes} concluída.");
-    }
-}
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}
-\frametitle{Código Paralelo: Construção da Solução em Paralelo}
-\begin{itemize}
-    \item Utilização de \texttt{Parallel.For} para paralelizar a construção das soluções.
-\end{itemize}
-\begin{lstlisting}
-Action<double[,], double[,], double[,], int, int, int> acoThread =
-(distancias, feromonios, heuristicas, numCidades, numFormigas, numIteracoes) => {
-    for (var iteracao = 0; iteracao < numIteracoes; iteracao++) {
-        var tours = new int[numFormigas][];
-        Parallel.For(0, numFormigas, i => {
-            tours[i] = construirSolucao(feromonios, heuristicas, numCidades);
-        });
-        feromonios = atualizarFeromonios(tours, distancias, feromonios, rho);
-        Console.WriteLine($"Iteração {iteracao + 1}/{numIteracoes} concluída.");
-    }
-};
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}
-\frametitle{Resultados}
-\begin{itemize}
-    \item Tempos de execução foram registrados para diferentes números de iterações.
-    \item Gráficos de comparação de tempo de execução e speedup foram gerados.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Comparação do Tempo de Execução}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{comparacao_tempo_execucao.png}
-    \caption{Comparação do Tempo de Execução: Algoritmo Paralelo vs Sequencial}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Speedup}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{speedup.png}
-    \caption{Speedup do Algoritmo Paralelo em Comparação ao Sequencial}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Conclusão}
-\begin{itemize}
-    \item A implementação paralela do ACO mostra um speedup significativo em relação à versão sequencial.
-    \item A eficiência do algoritmo paralelo aumenta com o número de iterações.
-    \item O uso de técnicas de paralelismo pode melhorar significativamente o desempenho de algoritmos de otimização.
-\end{itemize}
-\end{frame}
-
+	
+	\frame{\titlepage}
+	
+	\begin{frame}
+		\frametitle{Problema}
+		\begin{itemize}
+			\item A Otimização por Colônia de Formigas (ACO) é uma meta-heurística popular para resolver problemas de otimização combinatória, como o Problema do Caixeiro Viajante (TSP).
+			\item Implementações sequenciais de ACO são frequentemente limitadas pelo tempo de execução, especialmente em problemas de grande escala.
+			\item Paralelizar o ACO pode melhorar significativamente a eficiência, mas apresenta desafios em termos de acesso e controle de dados.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução Proposta}
+		\begin{itemize}
+			\item Proposta de um novo modelo de ACO paralelo para arquitetura de CPU multi-core.
+			\item Introdução de uma abordagem de seleção proporcional à aptidão chamada Roda da Roleta Vetorial (VRW).
+			\item Utilização de instruções vetoriais para acelerar a construção do tour de cada formiga.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Metodologia}
+		\begin{itemize}
+			\item \textbf{Inicialização:}
+			\begin{itemize}
+				\item Matrizes de distâncias, feromônios e heurísticas são inicializadas aleatoriamente.
+			\end{itemize}
+			\item \textbf{Construção de Solução:}
+			\begin{itemize}
+				\item Cada formiga constrói um tour baseado nos feromônios e nas heurísticas utilizando a VRW.
+			\end{itemize}
+			\item \textbf{Atualização de Feromônios:}
+			\begin{itemize}
+				\item Feromônios são atualizados com base nos tours construídos pelas formigas.
+			\end{itemize}
+			\item \textbf{Medição de Tempo:}
+			\begin{itemize}
+				\item Tempo de execução é medido para diferentes números de iterações (\(n\)).
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Metodologia}
+		\begin{itemize}
+			\item \textbf{Hardware utilizado:}
+			\begin{itemize}
+				\item CPU: AMD Ryzen 5 5600 (6/12)
+				\item GPU: AMD Radeon RX 6750 XT
+				\item RAM: 16gb ddr4 3600mhz
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{code definition.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Definições do programa}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=.8\linewidth]{code initialization.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Inicialização das matrizes}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=.6\linewidth]{code 1.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Construção da solução - primeira parte}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=.7\linewidth]{code 2.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Construção da solução - segunda parte}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{code update.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Atualização dos feromônios}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Solução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{code metric.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Chamada e medição do tempo de execução}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Utilização CPU Paralelo}
+		\begin{figure}
+			\centering
+			\includegraphics[width=.8\linewidth]{CPU Paralelo.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Utilização do CPU Paralelo}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Resultados}
+		\begin{itemize}
+			\item Comparação entre o algoritmo sequencial e o paralelo.
+			\item Medição de tempos de execução e speedup.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Comparação de Speedup}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{speedup.png} % Substitua "speedup.png" pelo caminho da sua imagem
+			\caption{Comparação de Speedup}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Comparação de Tempos de Execução}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1\linewidth]{comparacao_tempo_execucao.png} % Substitua "execution_times.png" pelo caminho da sua imagem
+			\caption{Comparação de Tempos de Execução}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Conclusão}
+		\begin{itemize}
+			\item O modelo proposto de ACO paralelo em CPUs multi-core mostrou uma aceleração significativa em comparação com a versão sequencial.
+			\item A abordagem VRW e a utilização de instruções vetoriais melhoraram a eficiência da construção do tour.
+			\item Resultados indicam o potencial de CPUs multi-core para resolver problemas de grande escala de forma eficiente.
+		\end{itemize}
+	\end{frame}
+	
 \end{document}
